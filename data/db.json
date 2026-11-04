@@ -1,0 +1,995 @@
+{
+  "users": [
+    {
+      "id": "usr_demo",
+      "username": "demo",
+      "password": "123",
+      "notes": "Usuario Demo de Prueba",
+      "expDate": "2026-12-31",
+      "status": "active",
+      "blockedChannels": [],
+      "maxConnections": 2
+    },
+    {
+      "id": "usr_invitado",
+      "username": "invitado",
+      "password": "demo",
+      "notes": "Cliente de cortesía 7 días",
+      "expDate": "2026-11-10",
+      "status": "active",
+      "blockedChannels": [],
+      "maxConnections": 1
+    }
+  ],
+  "playlists": [],
+  "channels": [
+    {
+      "id": "custom_ch_1793743068926_uu8y",
+      "number": 38,
+      "name": "CM - El Canal de la Música | AR",
+      "category": "Argentina",
+      "logo": "https://www.cronica.com.ar/files/image/1528/1528011/6977e9ce59d53.png",
+      "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "CM - El Canal de la Música | AR",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068924_oli0",
+      "number": 37,
+      "name": "Cine Ar | AR",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/KYBGyPKk/CINEARLogo.png",
+      "url": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "streamUrl": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "Cine Ar | AR",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068922_c529",
+      "number": 36,
+      "name": "DSPORTS 1 ARG",
+      "category": "Argentina",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/5/5a/DSports.png",
+      "url": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "streamUrl": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "DSPORTS 1 ARG",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068920_4vj3",
+      "number": 35,
+      "name": "TyC Sports",
+      "category": "Argentina",
+      "logo": "https://static.wikia.nocookie.net/logopedia/images/6/61/TyC_Sports.png/revision/latest?cb=20190620182054&path-prefix=es",
+      "url": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "streamUrl": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "TyC Sports",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068918_0sdt",
+      "number": 34,
+      "name": "Fox Sports 3  | AR FHD",
+      "category": "Argentina",
+      "logo": "https://static.wikia.nocookie.net/logopedia/images/a/a1/FOX_Sports_3_Argentina_%282023%29.png/revision/latest?cb=20230207140224&path-prefix=es",
+      "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "Fox Sports 3  | AR FHD",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068912_4ke1",
+      "number": 33,
+      "name": "Fox Sports 2  | AR FHD",
+      "category": "Argentina",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/9/92/Logo_Fox_Sports_2_Argentina_2023.png",
+      "url": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "streamUrl": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "Fox Sports 2  | AR FHD",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068899_jqdc",
+      "number": 32,
+      "name": "Fox Sports | AR",
+      "category": "Argentina",
+      "logo": "https://static.wikia.nocookie.net/logopedia/images/b/b2/Fox_Sports_Argentina_2023.svg/revision/latest/scale-to-width-down/200?cb=20230305142851&path-prefix=es",
+      "url": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "streamUrl": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "Fox Sports | AR",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068895_ppop",
+      "number": 31,
+      "name": "ESPN FHD | AR",
+      "category": "Argentina",
+      "logo": "https://r2.thesportsdb.com/images/media/channel/logo/hdrkql1660762351.png",
+      "url": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "streamUrl": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "ESPN FHD | AR",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068885_r7yh",
+      "number": 30,
+      "name": "CIUDAD MAGAZINE HD",
+      "category": "Argentina",
+      "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5-0odv_2wgxZHAqMfic5Q9Qh9eKutgZ3F0A&s",
+      "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "CIUDAD MAGAZINE HD",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068880_qozn",
+      "number": 29,
+      "name": "Canal 9 Litoral",
+      "category": "Argentina",
+      "logo": "https://static.wikia.nocookie.net/logopedia/images/d/d5/Canal_9_Litoral_(Logo_2021).png/revision/latest?cb=20220305163041",
+      "url": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "streamUrl": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "Canal 9 Litoral",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068877_q1y1",
+      "number": 28,
+      "name": "TV Publica",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/hPBkZvwY/1280px-TVP-Television-Publica-(2021)-svg.png",
+      "url": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "streamUrl": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "TV Publica",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068874_17se",
+      "number": 27,
+      "name": "Canal 26 | AR",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/3Rbg4kG3/images-q-tbn-ANd9Gc-Se0i-OYk-MVUv8b-RSmev324PVm-Iah3Lbnmk-a-A-s.png",
+      "url": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "streamUrl": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "Canal 26 | AR",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068866_qkod",
+      "number": 26,
+      "name": "TN Noticias",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/tTnKwx9g/250px-TN-todo-noticias-logo-svg.png",
+      "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "TN Noticias",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068864_26s9",
+      "number": 25,
+      "name": "TELEFE",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/x8MSJbZX/330px-Telefe-(nuevo-logo).png",
+      "url": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "streamUrl": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "TELEFE",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068862_mcj7",
+      "number": 24,
+      "name": "El Nueve",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/MT3CrmCs/Canal-9-ba-logo.png",
+      "url": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "streamUrl": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "El Nueve",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068860_klsa",
+      "number": 23,
+      "name": "El Trece",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/HWRGw34L/Logo-Canal-13-200-8.png",
+      "url": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "streamUrl": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "El Trece",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068858_h8tj",
+      "number": 22,
+      "name": "CRONICA",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/cJ0GKH76/Cronica-TV-logotipo-(2016).png",
+      "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "CRONICA",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068852_02c6",
+      "number": 21,
+      "name": "America TV | AR",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/k4MCH4Dh/America-TV-(Nuevo-logo-Junio-2020).png",
+      "url": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "streamUrl": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "America TV | AR",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "custom_ch_1793743068849_vm32",
+      "number": 20,
+      "name": "A24 | AR",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/VL2YNmHh/images-q-tbn-ANd9Gc-T8yf-XBu-Qmon9WVy3ETX9fuq0w4U8Hvq391YA-s.png",
+      "url": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "streamUrl": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false,
+      "epgNow": {
+        "title": "A24 | AR",
+        "startTime": "00:00",
+        "endTime": "23:59",
+        "description": "URL directa"
+      },
+      "epgNext": {
+        "title": "Programación continua",
+        "startTime": "23:59",
+        "endTime": "06:00",
+        "description": "Transmisión sin interrupciones"
+      }
+    },
+    {
+      "id": "m3u_ch_1793743068327_0",
+      "number": 1,
+      "name": "A24 | AR",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/VL2YNmHh/images-q-tbn-ANd9Gc-T8yf-XBu-Qmon9WVy3ETX9fuq0w4U8Hvq391YA-s.png",
+      "url": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "streamUrl": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_1",
+      "number": 2,
+      "name": "America TV | AR",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/k4MCH4Dh/America-TV-(Nuevo-logo-Junio-2020).png",
+      "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_2",
+      "number": 3,
+      "name": "CRONICA",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/cJ0GKH76/Cronica-TV-logotipo-(2016).png",
+      "url": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "streamUrl": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_3",
+      "number": 4,
+      "name": "El Nueve",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/MT3CrmCs/Canal-9-ba-logo.png",
+      "url": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "streamUrl": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_4",
+      "number": 5,
+      "name": "El Trece",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/HWRGw34L/Logo-Canal-13-200-8.png",
+      "url": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "streamUrl": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_5",
+      "number": 6,
+      "name": "TELEFE",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/x8MSJbZX/330px-Telefe-(nuevo-logo).png",
+      "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_6",
+      "number": 7,
+      "name": "TN Noticias",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/tTnKwx9g/250px-TN-todo-noticias-logo-svg.png",
+      "url": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "streamUrl": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_7",
+      "number": 8,
+      "name": "TV Publica",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/hPBkZvwY/1280px-TVP-Television-Publica-(2021)-svg.png",
+      "url": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "streamUrl": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_8",
+      "number": 9,
+      "name": "Canal 26 | AR",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/3Rbg4kG3/images-q-tbn-ANd9Gc-Se0i-OYk-MVUv8b-RSmev324PVm-Iah3Lbnmk-a-A-s.png",
+      "url": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "streamUrl": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_9",
+      "number": 10,
+      "name": "Canal 9 Litoral",
+      "category": "Argentina",
+      "logo": "https://static.wikia.nocookie.net/logopedia/images/d/d5/Canal_9_Litoral_(Logo_2021).png/revision/latest?cb=20220305163041",
+      "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_10",
+      "number": 11,
+      "name": "CIUDAD MAGAZINE HD",
+      "category": "Argentina",
+      "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5-0odv_2wgxZHAqMfic5Q9Qh9eKutgZ3F0A&s",
+      "url": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "streamUrl": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_11",
+      "number": 12,
+      "name": "ESPN FHD | AR",
+      "category": "Argentina",
+      "logo": "https://r2.thesportsdb.com/images/media/channel/logo/hdrkql1660762351.png",
+      "url": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "streamUrl": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_12",
+      "number": 13,
+      "name": "Fox Sports | AR",
+      "category": "Argentina",
+      "logo": "https://static.wikia.nocookie.net/logopedia/images/b/b2/Fox_Sports_Argentina_2023.svg/revision/latest/scale-to-width-down/200?cb=20230305142851&path-prefix=es",
+      "url": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "streamUrl": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_13",
+      "number": 14,
+      "name": "Fox Sports 2  | AR FHD",
+      "category": "Argentina",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/9/92/Logo_Fox_Sports_2_Argentina_2023.png",
+      "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_14",
+      "number": 15,
+      "name": "Fox Sports 3  | AR FHD",
+      "category": "Argentina",
+      "logo": "https://static.wikia.nocookie.net/logopedia/images/a/a1/FOX_Sports_3_Argentina_%282023%29.png/revision/latest?cb=20230207140224&path-prefix=es",
+      "url": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "streamUrl": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_15",
+      "number": 16,
+      "name": "TyC Sports",
+      "category": "Argentina",
+      "logo": "https://static.wikia.nocookie.net/logopedia/images/6/61/TyC_Sports.png/revision/latest?cb=20190620182054&path-prefix=es",
+      "url": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "streamUrl": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_16",
+      "number": 17,
+      "name": "DSPORTS 1 ARG",
+      "category": "Argentina",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/5/5a/DSports.png",
+      "url": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "streamUrl": "https://res.cloudinary.com/demo/video/upload/sp_full_hd/dog.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_17",
+      "number": 18,
+      "name": "Cine Ar | AR",
+      "category": "Argentina",
+      "logo": "https://i.postimg.cc/KYBGyPKk/CINEARLogo.png",
+      "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    },
+    {
+      "id": "m3u_ch_1793743068327_18",
+      "number": 19,
+      "name": "CM - El Canal de la Música | AR",
+      "category": "Argentina",
+      "logo": "https://www.cronica.com.ar/files/image/1528/1528011/6977e9ce59d53.png",
+      "url": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "streamUrl": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "resolution": "1080p Stream",
+      "isBlocked": false
+    }
+  ],
+  "vodItems": [
+    {
+      "id": "vod_1",
+      "playlistId": "pl_pro_default",
+      "title": "Sintel (Ultra HD 4K)",
+      "type": "movie",
+      "poster": "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&h=600&fit=crop",
+      "backdrop": "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1200&h=600&fit=crop",
+      "year": 2026,
+      "rating": "9.4",
+      "synopsis": "Una épica historia de fantasía y aventura en busca del dragón perdido en tierras lejanas.",
+      "category": "Acción & Fantasía",
+      "url": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+      "streamUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+      "isBlocked": false
+    },
+    {
+      "id": "vod_2",
+      "playlistId": "pl_pro_default",
+      "title": "Oceans: Planeta Azul (HD 1080p)",
+      "type": "movie",
+      "poster": "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=400&h=600&fit=crop",
+      "backdrop": "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=1200&h=600&fit=crop",
+      "year": 2025,
+      "rating": "8.8",
+      "synopsis": "Un impresionante viaje visual por las profundidades de los océanos del mundo.",
+      "category": "Ciencia Ficción",
+      "url": "https://vjs.zencdn.net/v/oceans.mp4",
+      "streamUrl": "https://vjs.zencdn.net/v/oceans.mp4",
+      "isBlocked": false
+    },
+    {
+      "id": "vod_3",
+      "playlistId": "pl_pro_default",
+      "title": "Big Buck Bunny (Ultra HD)",
+      "type": "movie",
+      "poster": "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=400&h=600&fit=crop",
+      "backdrop": "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=1200&h=600&fit=crop",
+      "year": 2026,
+      "rating": "9.1",
+      "synopsis": "Un conejo gigante se enfrenta a tres roedores traviesos en el bosque encantado.",
+      "category": "Animación",
+      "url": "https://media.w3.org/2010/05/bunny/trailer.mp4",
+      "streamUrl": "https://media.w3.org/2010/05/bunny/trailer.mp4",
+      "isBlocked": false
+    },
+    {
+      "id": "vod_5",
+      "playlistId": "pl_pro_default",
+      "title": "View From A Blue Moon (Acción Extrema)",
+      "type": "movie",
+      "poster": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400&h=600&fit=crop",
+      "backdrop": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1200&h=600&fit=crop",
+      "year": 2026,
+      "rating": "9.3",
+      "synopsis": "Especial de surf y deportes extremos en lugares vírgenes del planeta.",
+      "category": "Acción & Fantasía",
+      "url": "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
+      "streamUrl": "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
+      "isBlocked": false
+    },
+    {
+      "id": "vod_6",
+      "playlistId": "pl_pro_default",
+      "title": "Naturaleza en Movimiento (Documental 4K)",
+      "type": "movie",
+      "poster": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&h=600&fit=crop",
+      "backdrop": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&h=600&fit=crop",
+      "year": 2025,
+      "rating": "8.9",
+      "synopsis": "Una mirada cinematográfica y botánica a la vida secreta de las flores.",
+      "category": "Ciencia Ficción",
+      "url": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+      "streamUrl": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+      "isBlocked": false
+    },
+    {
+      "id": "vod_7",
+      "playlistId": "pl_pro_default",
+      "title": "Clásicos del Cine (Misterio Sci-Fi)",
+      "type": "movie",
+      "poster": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&h=600&fit=crop",
+      "backdrop": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&h=600&fit=crop",
+      "year": 2026,
+      "rating": "9.0",
+      "synopsis": "Una travesía inolvidable por escenas legendarias de la cinematografía.",
+      "category": "Aventura",
+      "url": "https://media.w3.org/2010/05/video/movie_300.mp4",
+      "streamUrl": "https://media.w3.org/2010/05/video/movie_300.mp4",
+      "isBlocked": false
+    },
+    {
+      "id": "vod_4",
+      "playlistId": "pl_pro_default",
+      "title": "Cyberpunk 2099: La Serie",
+      "type": "series",
+      "poster": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=600&fit=crop",
+      "backdrop": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200&h=600&fit=crop",
+      "year": "2026",
+      "rating": "9.6",
+      "synopsis": "Serie original de intriga tecnológica y corporaciones globales en Neo-Tokio.",
+      "category": "Acción & Fantasía",
+      "seasonsCount": 2,
+      "episodes": [
+        {
+          "id": "ep_101",
+          "title": "Episodio 1: El Despertar",
+          "seasonNumber": 1,
+          "episodeNumber": 1,
+          "streamUrl": "https://vjs.zencdn.net/v/oceans.mp4",
+          "duration": "45 min"
+        },
+        {
+          "id": "ep_102",
+          "title": "Episodio 2: Código Rojo",
+          "seasonNumber": 1,
+          "episodeNumber": 2,
+          "streamUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+          "duration": "42 min"
+        },
+        {
+          "id": "ep_201",
+          "title": "Episodio 1: Resistencia Global",
+          "seasonNumber": 2,
+          "episodeNumber": 1,
+          "streamUrl": "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
+          "duration": "50 min"
+        }
+      ]
+    }
+  ],
+  "announcements": [
+    {
+      "id": "ann_1",
+      "text": "🚀 NeshTV IPTV v5.1: Mantenimiento programado hoy a las 23:00. Servidores optimizados con búfer cero congelamientos.",
+      "active": true,
+      "targetUser": "all",
+      "type": "marquee"
+    }
+  ],
+  "supportNote": {
+    "whatsappNumber": "+54 9 11 9876-5432",
+    "paymentInstructions": "Para renovación de cuenta, compra de listas adicionales o soporte técnico inmediato, escríbenos por WhatsApp indicando tu nombre de usuario.",
+    "customMessage": "¡Servicio 100% Estable con Garantía Anti-Corte!"
+  },
+  "proVipChannels": [
+    {
+      "id": "pro_1",
+      "playlistId": "pro",
+      "name": "⚡ PRO VIP: Champions League Direct 4K",
+      "logo": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=200&h=200&fit=crop",
+      "category": "Eventos VIP",
+      "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "isLocked": false,
+      "isProVip": true
+    },
+    {
+      "id": "pro_2",
+      "playlistId": "pro",
+      "name": "⚡ PRO VIP: Cinema Box Office Latino",
+      "logo": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=200&h=200&fit=crop",
+      "category": "Eventos VIP",
+      "streamUrl": "https://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8",
+      "isLocked": false,
+      "isProVip": true
+    }
+  ],
+  "vod": [
+    {
+      "id": "vod_1",
+      "playlistId": "pl_pro_default",
+      "title": "Sintel (Ultra HD 4K)",
+      "type": "movie",
+      "poster": "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&h=600&fit=crop",
+      "backdrop": "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1200&h=600&fit=crop",
+      "year": 2026,
+      "rating": "9.4",
+      "synopsis": "Una épica historia de fantasía y aventura en busca del dragón perdido en tierras lejanas.",
+      "category": "Acción & Fantasía",
+      "url": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+      "streamUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+      "isBlocked": false
+    },
+    {
+      "id": "vod_2",
+      "playlistId": "pl_pro_default",
+      "title": "Oceans: Planeta Azul (HD 1080p)",
+      "type": "movie",
+      "poster": "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=400&h=600&fit=crop",
+      "backdrop": "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=1200&h=600&fit=crop",
+      "year": 2025,
+      "rating": "8.8",
+      "synopsis": "Un impresionante viaje visual por las profundidades de los océanos del mundo.",
+      "category": "Ciencia Ficción",
+      "url": "https://vjs.zencdn.net/v/oceans.mp4",
+      "streamUrl": "https://vjs.zencdn.net/v/oceans.mp4",
+      "isBlocked": false
+    },
+    {
+      "id": "vod_3",
+      "playlistId": "pl_pro_default",
+      "title": "Big Buck Bunny (Ultra HD)",
+      "type": "movie",
+      "poster": "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=400&h=600&fit=crop",
+      "backdrop": "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=1200&h=600&fit=crop",
+      "year": 2026,
+      "rating": "9.1",
+      "synopsis": "Un conejo gigante se enfrenta a tres roedores traviesos en el bosque encantado.",
+      "category": "Animación",
+      "url": "https://media.w3.org/2010/05/bunny/trailer.mp4",
+      "streamUrl": "https://media.w3.org/2010/05/bunny/trailer.mp4",
+      "isBlocked": false
+    },
+    {
+      "id": "vod_5",
+      "playlistId": "pl_pro_default",
+      "title": "View From A Blue Moon (Acción Extrema)",
+      "type": "movie",
+      "poster": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400&h=600&fit=crop",
+      "backdrop": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1200&h=600&fit=crop",
+      "year": 2026,
+      "rating": "9.3",
+      "synopsis": "Especial de surf y deportes extremos en lugares vírgenes del planeta.",
+      "category": "Acción & Fantasía",
+      "url": "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
+      "streamUrl": "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
+      "isBlocked": false
+    },
+    {
+      "id": "vod_6",
+      "playlistId": "pl_pro_default",
+      "title": "Naturaleza en Movimiento (Documental 4K)",
+      "type": "movie",
+      "poster": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&h=600&fit=crop",
+      "backdrop": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&h=600&fit=crop",
+      "year": 2025,
+      "rating": "8.9",
+      "synopsis": "Una mirada cinematográfica y botánica a la vida secreta de las flores.",
+      "category": "Ciencia Ficción",
+      "url": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+      "streamUrl": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+      "isBlocked": false
+    },
+    {
+      "id": "vod_7",
+      "playlistId": "pl_pro_default",
+      "title": "Clásicos del Cine (Misterio Sci-Fi)",
+      "type": "movie",
+      "poster": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&h=600&fit=crop",
+      "backdrop": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&h=600&fit=crop",
+      "year": 2026,
+      "rating": "9.0",
+      "synopsis": "Una travesía inolvidable por escenas legendarias de la cinematografía.",
+      "category": "Aventura",
+      "url": "https://media.w3.org/2010/05/video/movie_300.mp4",
+      "streamUrl": "https://media.w3.org/2010/05/video/movie_300.mp4",
+      "isBlocked": false
+    },
+    {
+      "id": "vod_4",
+      "playlistId": "pl_pro_default",
+      "title": "Cyberpunk 2099: La Serie",
+      "type": "series",
+      "poster": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=600&fit=crop",
+      "backdrop": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200&h=600&fit=crop",
+      "year": "2026",
+      "rating": "9.6",
+      "synopsis": "Serie original de intriga tecnológica y corporaciones globales en Neo-Tokio.",
+      "category": "Acción & Fantasía",
+      "seasonsCount": 2,
+      "episodes": [
+        {
+          "id": "ep_101",
+          "title": "Episodio 1: El Despertar",
+          "seasonNumber": 1,
+          "episodeNumber": 1,
+          "streamUrl": "https://vjs.zencdn.net/v/oceans.mp4",
+          "duration": "45 min"
+        },
+        {
+          "id": "ep_102",
+          "title": "Episodio 2: Código Rojo",
+          "seasonNumber": 1,
+          "episodeNumber": 2,
+          "streamUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+          "duration": "42 min"
+        },
+        {
+          "id": "ep_201",
+          "title": "Episodio 1: Resistencia Global",
+          "seasonNumber": 2,
+          "episodeNumber": 1,
+          "streamUrl": "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
+          "duration": "50 min"
+        }
+      ]
+    }
+  ],
+  "listaProItems": [
+    {
+      "id": "pro_1",
+      "title": "⚡ Champions League Direct 4K",
+      "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "category": "Eventos VIP",
+      "type": "movie",
+      "year": 2026,
+      "rating": "9.9",
+      "poster": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400&h=600&fit=crop",
+      "synopsis": "Transmisión directa ultra rápida de Champions League sin latencia.",
+      "isListaPro": true
+    }
+  ],
+  "floatingMessage": {
+    "id": "msg_1",
+    "text": "🚀 NeshTV IPTV v5.1: Servidores optimizados con búfer cero congelamientos.",
+    "sender": "Administrador NeshTV",
+    "targetUserId": "all",
+    "active": true,
+    "type": "info",
+    "createdAt": "2026-11-03T21:52:55.485Z"
+  },
+  "contactNote": "Para renovaciones o soporte técnico WhatsApp: +54 9 11 9876-5432"
+}

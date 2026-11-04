@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1069300006697",
+    "project_id": "neshtvpro",
+    "storage_bucket": "neshtvpro.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069300006697:android:702e24b7d5fa9ee83ec138",
+        "android_client_info": {
+          "package_name": "NeshTV.pro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRXLr_Q8Ep8cA-jez1Tg9G0V-oqADdpNs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,6 @@
+{
+  "name": "NeshTV IPTV",
+  "description": "Sistema completo de streaming multimedia IPTV estilo Smarters Pro con motor anti-congelamiento, proxy de streaming, panel maestro de administración y optimización para Android TV Box.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

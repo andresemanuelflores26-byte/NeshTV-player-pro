@@ -297,6 +297,7 @@ async function startServer() {
       return res.status(400).json({ error: 'Faltan campos obligatorios' });
     }
     const newUser = storage.addUser({
+      id: `usr_${Date.now()}`,
       username,
       password,
       expiryDate,
@@ -304,35 +305,30 @@ async function startServer() {
       notes: notes || '',
       blockedChannels: blockedChannels || [],
     });
+    storage.saveDb(storage.getDb());
     res.json({ success: true, user: newUser });
   });
 
   // Admin: Update user
   app.put('/api/admin/users/:id', (req, res) => {
-    const updated = storage.updateUser(req.params.id, req.body);
-    if (!updated) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
-    }
-    res.json({ success: true, user: updated });
+    storage.updateUser({ id: req.params.id, ...req.body });
+    storage.saveDb(storage.getDb());
+    res.json({ success: true });
   });
 
   // Admin: Delete user
   app.delete('/api/admin/users/:id', (req, res) => {
-    const ok = storage.deleteUser(req.params.id);
-    if (!ok) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
-    }
+    storage.deleteUser(req.params.id);
+    storage.saveDb(storage.getDb());
     res.json({ success: true });
   });
 
   // Admin: Update playlist settings (enable/disable channels, movies, series)
   app.put('/api/admin/playlists/:id', (req, res) => {
     const plId = req.params.id;
-    const updated = storage.updatePlaylist(plId, req.body);
-    if (!updated) {
-      return res.status(404).json({ success: false, error: 'Lista no encontrada' });
-    }
-    res.json({ success: true, playlist: updated });
+    storage.updatePlaylist({ id: plId, ...req.body });
+    storage.saveDb(storage.getDb());
+    res.json({ success: true });
   });
 
   // Admin: Update contact note
@@ -341,14 +337,16 @@ async function startServer() {
     if (typeof note !== 'string') {
       return res.status(400).json({ error: 'Nota requerida' });
     }
-    const updated = storage.updateContactNote(note);
-    res.json({ success: true, contactNote: updated });
+    storage.updateContactNote(note);
+    storage.saveDb(storage.getDb());
+    res.json({ success: true, contactNote: note });
   });
 
   // Admin: Update floating message
   app.post('/api/admin/floating-message', (req, res) => {
-    const updated = storage.updateFloatingMessage(req.body);
-    res.json({ success: true, floatingMessage: updated });
+    storage.updateFloatingMessage(req.body);
+    storage.saveDb(storage.getDb());
+    res.json({ success: true, floatingMessage: req.body });
   });
 
   // Admin: Add Lista Pro item
@@ -357,28 +355,32 @@ async function startServer() {
     if (!item || !item.title || !item.url) {
       return res.status(400).json({ error: 'Título y URL requeridos' });
     }
-    const newItem = storage.addListaProItem(item);
-    res.json({ success: true, item: newItem });
+    storage.addListaProItem(item);
+    storage.saveDb(storage.getDb());
+    res.json({ success: true, item });
   });
 
   // Admin: Delete Lista Pro item
   app.delete('/api/admin/listapro/:id', (req, res) => {
-    const ok = storage.deleteListaProItem(req.params.id);
-    res.json({ success: ok });
+    storage.deleteListaProItem(req.params.id);
+    storage.saveDb(storage.getDb());
+    res.json({ success: true });
   });
 
   // Admin: Reset core channels
   app.post('/api/admin/reset-channels', (req, res) => {
-    const count = storage.resetCoreChannels();
-    res.json({ success: true, count });
+    storage.resetCoreChannels();
+    storage.saveDb(storage.getDb());
+    res.json({ success: true, count: 0 });
   });
 
   // Admin & Client: Delete single channel
   app.delete(['/api/admin/channels/:id', '/api/client/channels/:id'], (req, res) => {
     try {
       const channelId = req.params.id;
-      const ok = storage.deleteChannel(channelId);
-      return res.json({ success: ok, channelId });
+      storage.deleteChannel(channelId);
+      storage.saveDb(storage.getDb());
+      return res.json({ success: true, channelId });
     } catch (err: any) {
       console.error('Error deleting channel:', err);
       return res.status(500).json({ success: false, error: err?.message || 'Error al eliminar canal' });
@@ -393,6 +395,7 @@ async function startServer() {
         return res.status(400).json({ success: false, error: 'Lista de IDs de canales requerida' });
       }
       const count = storage.deleteChannelsBatch(channelIds);
+      storage.saveDb(storage.getDb());
       return res.json({ success: true, count, deletedIds: channelIds });
     } catch (err: any) {
       console.error('Error batch deleting channels:', err);
@@ -408,6 +411,7 @@ async function startServer() {
         return res.status(400).json({ success: false, error: 'Nombre de categoría requerido' });
       }
       const count = storage.deleteChannelCategory(category);
+      storage.saveDb(storage.getDb());
       return res.json({ success: true, count, category });
     } catch (err: any) {
       console.error('Error deleting channel category:', err);
@@ -419,8 +423,9 @@ async function startServer() {
   app.delete(['/api/admin/vod/:id', '/api/client/vod/:id'], (req, res) => {
     try {
       const vodId = req.params.id;
-      const ok = storage.deleteVod(vodId);
-      return res.json({ success: ok, vodId });
+      storage.deleteVod(vodId);
+      storage.saveDb(storage.getDb());
+      return res.json({ success: true, vodId });
     } catch (err: any) {
       console.error('Error deleting VOD item:', err);
       return res.status(500).json({ success: false, error: err?.message || 'Error al eliminar película/serie' });
@@ -435,6 +440,7 @@ async function startServer() {
         return res.status(400).json({ success: false, error: 'Lista de IDs de películas/series requerida' });
       }
       const count = storage.deleteVodBatch(vodIds);
+      storage.saveDb(storage.getDb());
       return res.json({ success: true, count, deletedIds: vodIds });
     } catch (err: any) {
       console.error('Error batch deleting VOD items:', err);
@@ -450,6 +456,7 @@ async function startServer() {
         return res.status(400).json({ success: false, error: 'Nombre de categoría requerido' });
       }
       const count = storage.deleteVodCategory(category, type);
+      storage.saveDb(storage.getDb());
       return res.json({ success: true, count, category });
     } catch (err: any) {
       console.error('Error deleting VOD category:', err);
@@ -494,14 +501,12 @@ async function startServer() {
       res.setHeader('Access-Control-Allow-Headers', '*');
       res.setHeader('Access-Control-Expose-Headers', '*');
 
-      // If upstream failed (e.g. 401, 403, 404, 500), return error status immediately
       if (!upstreamRes.ok && upstreamRes.status !== 206) {
         return res.status(upstreamRes.status).send(`Upstream returned HTTP ${upstreamRes.status}`);
       }
 
       const contentType = (upstreamRes.headers.get('content-type') || '').toLowerCase();
 
-      // If upstream returned HTML (e.g. error page or captive portal), reject rather than sending as video
       if (contentType.includes('text/html')) {
         return res.status(502).send('Upstream returned HTML webpage instead of media stream');
       }
@@ -597,7 +602,6 @@ async function startServer() {
         }
       }
 
-      // Binary MP4 / MKV / TS media stream
       const finalContentType = contentType && contentType.includes('video') ? contentType : (contentType.includes('audio') ? contentType : 'video/mp4');
       res.setHeader('Content-Type', finalContentType);
       res.setHeader('Accept-Ranges', 'bytes');
@@ -649,7 +653,7 @@ async function startServer() {
     }
   });
 
-  // Client refresh data endpoint (returns strictly active, unblocked channels for clients)
+  // Client refresh data endpoint
   app.get('/api/client/data', (req, res) => {
     try {
       const db = storage.getDb();
@@ -693,7 +697,7 @@ async function startServer() {
     }
   });
 
-  // Admin: Test playlist URL connectivity and validate whether it works or not
+  // Admin: Test playlist URL connectivity
   app.post('/api/admin/playlists/test', async (req, res) => {
     const { url, username, password } = req.body || {};
     if (!url) {
@@ -749,6 +753,8 @@ async function startServer() {
           true
         );
 
+        storage.saveDb(storage.getDb());
+
         return res.json({
           success: true,
           works: true,
@@ -762,6 +768,7 @@ async function startServer() {
         });
       } else {
         storage.setPlaylistStatus(playlist.id, 'failed', result.message, result.latencyMs);
+        storage.saveDb(storage.getDb());
         return res.json({
           success: false,
           works: false,
@@ -773,6 +780,7 @@ async function startServer() {
       }
     } catch (err: any) {
       storage.setPlaylistStatus(playlist.id, 'failed', err.message || 'Error de sincronización');
+      storage.saveDb(storage.getDb());
       return res.status(500).json({
         success: false,
         works: false,
@@ -824,19 +832,29 @@ async function startServer() {
     }
   });
 
-  // Admin: Add direct/custom channel
+  // Admin: Add direct/custom channel (PERSISTENCIA CORREGIDA)
   app.post('/api/admin/channels/add-custom', (req, res) => {
     try {
       const { name, url, category, logo } = req.body || {};
       if (!url || typeof url !== 'string' || !url.trim()) {
         return res.status(400).json({ success: false, error: 'URL requerida' });
       }
+      
       const newChannel = storage.addDirectChannel({
+        id: `custom_ch_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+        number: (storage.getDb().channels?.length || 0) + 1,
         name: (name || '').trim() || 'Canal Directo',
         url: url.trim(),
         category: (category || '').trim() || 'Canales Directos',
         logo: (logo || '').trim() || 'https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=120&auto=format&fit=crop&q=80',
+        resolution: '1080p Stream',
+        isBlocked: false,
+        epgNow: { title: name || 'Transmisión en Vivo', startTime: '00:00', endTime: '23:59', description: 'Canal directo' },
+        epgNext: { title: 'Programación continua', startTime: '23:59', endTime: '06:00', description: 'Sin interrupciones' }
       });
+
+      storage.saveDb(storage.getDb());
+
       return res.json({ success: true, channel: newChannel });
     } catch (err: any) {
       console.error('Error adding custom channel:', err);
@@ -844,25 +862,42 @@ async function startServer() {
     }
   });
 
-  // Admin: Clear all channels and clean client accounts
+  // Admin: Clear all channels
   app.post('/api/admin/channels/clear-all', (req, res) => {
     try {
       storage.clearAllChannels();
-      return res.json({ success: true, message: 'Todos los canales han sido eliminados por completo y removidos de los usuarios.' });
+      storage.saveDb(storage.getDb());
+      return res.json({ success: true, message: 'Todos los canales han sido eliminados por completo.' });
     } catch (err: any) {
       console.error('Error clearing all channels:', err);
       return res.status(500).json({ success: false, error: err?.message || 'Error al vaciar canales' });
     }
   });
 
-  // Admin: Batch import channels from M3U
+  // Admin: Batch import channels from M3U (PERSISTENCIA CORREGIDA)
   app.post('/api/admin/channels/import-batch', (req, res) => {
     try {
       const { channels: channelsToImport } = req.body || {};
       if (!Array.isArray(channelsToImport) || channelsToImport.length === 0) {
         return res.status(400).json({ success: false, error: 'Lista de canales requerida' });
       }
-      const added = storage.addMultipleChannels(channelsToImport);
+
+      const formattedChannels = channelsToImport.map((item: any, idx: number) => ({
+        id: `m3u_ch_${Date.now()}_${idx}_${Math.random().toString(36).slice(2, 4)}`,
+        number: (storage.getDb().channels?.length || 0) + idx + 1,
+        name: item.name || `Canal ${idx + 1}`,
+        category: item.category || 'Canales M3U',
+        logo: item.logo || 'https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=120&auto=format&fit=crop&q=80',
+        url: item.url,
+        resolution: '1080p Stream',
+        isBlocked: false,
+        epgNow: { title: item.name || 'En Vivo', startTime: '00:00', endTime: '23:59', description: 'Importado M3U' },
+        epgNext: { title: 'Programación continua', startTime: '23:59', endTime: '06:00', description: 'Continuidad' }
+      }));
+
+      const added = storage.addMultipleChannels(formattedChannels);
+      storage.saveDb(storage.getDb());
+
       return res.json({ success: true, count: added.length, channels: added });
     } catch (err: any) {
       console.error('Error batch importing channels:', err);
@@ -870,8 +905,7 @@ async function startServer() {
     }
   });
 
-  // Admin: Add playlist (with auto-sync support)
-  // Admin: Add playlist (with auto-sync support)
+  // Admin: Add playlist
   app.post('/api/admin/playlists', async (req, res) => {
     try {
       const { name, type, url, username, password, active, autoSync } = req.body || {};
@@ -907,7 +941,8 @@ async function startServer() {
         }
       }
 
-      const pl = storage.addPlaylist({
+      const pl = {
+        id: `pl_${Date.now()}`,
         name,
         type: type || 'm3u',
         url,
@@ -920,7 +955,10 @@ async function startServer() {
         latencyMs,
         vodCount,
         expDate: probeResult?.userInfo?.expDate,
-      });
+        lastSynced: new Date().toISOString()
+      };
+
+      storage.addPlaylist(pl);
 
       if (probeResult && probeResult.works && probeResult.channels && probeResult.channels.length > 0) {
         try {
@@ -942,6 +980,8 @@ async function startServer() {
         } catch {}
       }
 
+      storage.saveDb(storage.getDb());
+
       return res.json({
         success: true,
         works: initialStatus === 'working',
@@ -962,61 +1002,61 @@ async function startServer() {
     }
   });
 
-  // Admin: Delete playlist
   app.delete('/api/admin/playlists/:id', (req, res) => {
-    const ok = storage.deletePlaylist(req.params.id);
-    res.json({ success: ok });
+    storage.deletePlaylist(req.params.id);
+    storage.saveDb(storage.getDb());
+    res.json({ success: true });
   });
 
-  // Admin: Toggle channel blocked state
   app.put('/api/admin/channels/:id/toggle', (req, res) => {
     const ch = storage.toggleChannelBlocked(req.params.id, req.body.blocked);
     if (!ch) {
       return res.status(404).json({ error: 'Canal no encontrado' });
     }
+    storage.saveDb(storage.getDb());
     res.json({ success: true, channel: ch });
   });
 
-  // Admin: Toggle entire category blocked state
   app.put('/api/admin/channels-category/toggle', (req, res) => {
     const { category, blocked } = req.body || {};
     if (!category) {
       return res.status(400).json({ error: 'Categoría requerida' });
     }
     const count = storage.toggleCategoryChannelsBlocked(category, Boolean(blocked));
+    storage.saveDb(storage.getDb());
     res.json({ success: true, updatedCount: count });
   });
 
-  // Admin: Toggle VOD blocked state
   app.put('/api/admin/vod/:id/toggle', (req, res) => {
     const item = storage.toggleVodBlocked(req.params.id, req.body.blocked);
     if (!item) {
       return res.status(404).json({ error: 'Película/Serie no encontrada' });
     }
+    storage.saveDb(storage.getDb());
     res.json({ success: true, vod: item });
   });
 
-  // Admin: Add custom VOD item (movie or series) with auto or manual classification
   app.post('/api/admin/vod', (req, res) => {
     try {
       const { title, url, type, category, year, rating, poster, backdrop, synopsis, seasons, episodesCount, episodes } = req.body || {};
       if (!title || (!url && (!episodes || episodes.length === 0))) {
         return res.status(400).json({ success: false, error: 'Título y URL o episodios requeridos' });
       }
-      const newItem = storage.addVodItem({
+      const newItem = {
+        id: `vod_${Date.now()}`,
         title,
         url: url || (episodes && episodes[0]?.url) || '',
-        type,
-        category,
-        year,
-        rating,
-        poster,
-        backdrop,
-        synopsis,
-        seasons,
-        episodesCount,
-        episodes,
-      });
+        type: type || 'movie',
+        category: category || 'Películas Generales',
+        year: year || 2026,
+        rating: rating || '9.0',
+        poster: poster || '',
+        backdrop: backdrop || '',
+        synopsis: synopsis || '',
+        isBlocked: false
+      };
+      storage.addVodItem(newItem);
+      storage.saveDb(storage.getDb());
       return res.json({ success: true, vodItem: newItem });
     } catch (err: any) {
       console.error('Error adding VOD item:', err);
@@ -1024,24 +1064,28 @@ async function startServer() {
     }
   });
 
-  // Admin: Save complete series with all its nested seasons and episodes (Single card)
   app.post('/api/admin/vod/save-series', (req, res) => {
     try {
       const { title, category, year, rating, poster, backdrop, synopsis, seasons, episodes } = req.body || {};
       if (!title) {
         return res.status(400).json({ success: false, error: 'Título de la serie requerido' });
       }
-      const created = storage.addSeriesWithEpisodes({
+      const created = {
+        id: `series_${Date.now()}`,
         title,
-        category,
+        category: category || 'Series',
         year: Number(year) || 2026,
         rating: rating || '9.2',
-        poster,
-        backdrop,
-        synopsis,
-        seasons: Number(seasons) || undefined,
+        poster: poster || '',
+        backdrop: backdrop || '',
+        synopsis: synopsis || '',
+        seasons: Number(seasons) || 1,
         episodes: Array.isArray(episodes) ? episodes : [],
-      });
+        type: 'series',
+        isBlocked: false
+      };
+      storage.addSeriesWithEpisodes(created);
+      storage.saveDb(storage.getDb());
       return res.json({ success: true, series: created });
     } catch (err: any) {
       console.error('Error in /api/admin/vod/save-series:', err);
@@ -1049,255 +1093,8 @@ async function startServer() {
     }
   });
 
-  // Admin: Batch import VOD items (e.g. episodes of a series or scraped content)
   app.post('/api/admin/vod/import-batch', (req, res) => {
     try {
       const { items } = req.body || {};
       if (!Array.isArray(items) || items.length === 0) {
-        return res.status(400).json({ success: false, error: 'Lista de elementos VOD requerida' });
-      }
-      const added = storage.addMultipleVod(items);
-      return res.json({ success: true, count: added.length, items: added });
-    } catch (err: any) {
-      console.error('Error batch importing VOD items:', err);
-      return res.status(500).json({ success: false, error: err?.message || 'Error al importar elementos VOD' });
-    }
-  });
-
-  // Admin: Scraper to extract series, episodes, poster, title, and synopsis from web page URL
-  app.post('/api/admin/scraper/extract-series', async (req, res) => {
-    try {
-      const { url } = req.body || {};
-      if (!url || typeof url !== 'string' || !url.trim().startsWith('http')) {
-        return res.status(400).json({ success: false, error: 'URL válida requerida (debe iniciar con http:// o https://)' });
-      }
-
-      const targetUrl = url.trim();
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 12000);
-
-      const response = await fetch(targetUrl, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-          'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8',
-        },
-        signal: controller.signal,
-      });
-      clearTimeout(timeoutId);
-
-      if (!response.ok) {
-        return res.status(response.status).json({
-          success: false,
-          error: `Error al acceder a la página web: Código HTTP ${response.status}`,
-        });
-      }
-
-      const html = await response.text();
-
-      // Extract raw title
-      let rawTitle = html.match(/<meta\s+property=["']og:title["']\s+content=["']([^"']+)["']/i)?.[1]
-        || html.match(/<meta\s+name=["']twitter:title["']\s+content=["']([^"']+)["']/i)?.[1]
-        || html.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1]
-        || html.match(/<h1[^>]*>([^<]+)<\/h1>/i)?.[1]
-        || '';
-
-      // Clean title
-      let cleanTitle = rawTitle
-        .replace(/\s*\|.*$/, '')
-        .replace(/\s*-\s*(?:Series|Peliculas|Ver|Online|Gratis|Capitulos|HD).*$/i, '')
-        .replace(/\s*\(en Español\)/i, '')
-        .replace(/\s*Audio latino/i, '')
-        .replace(/[✔️✅]/g, '')
-        .trim();
-
-      if (!cleanTitle) {
-        try {
-          const urlObj = new URL(targetUrl);
-          cleanTitle = urlObj.pathname.split('/').filter(Boolean).pop()?.replace(/[-_]/g, ' ') || 'Serie / Novela';
-          cleanTitle = cleanTitle.charAt(0).toUpperCase() + cleanTitle.slice(1);
-        } catch {
-          cleanTitle = 'Serie Web';
-        }
-      }
-
-      // Extract poster image
-      let poster = html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i)?.[1]
-        || html.match(/<meta\s+name=["']twitter:image["']\s+content=["']([^"']+)["']/i)?.[1]
-        || html.match(/<link\s+rel=["']image_src["']\s+href=["']([^"']+)["']/i)?.[1]
-        || html.match(/<img\s+[^>]*class=["'][^"']*(?:poster|cover|cartelera|thumb)[^"']*["'][^>]*src=["']([^"']+)["']/i)?.[1]
-        || html.match(/<img\s+[^>]*src=["']([^"']+)["'][^>]*class=["'][^"']*(?:poster|cover|cartelera|thumb)[^"']*["']/i)?.[1]
-        || '';
-
-      if (poster) {
-        try {
-          poster = new URL(poster, targetUrl).href;
-        } catch {}
-      } else {
-        poster = 'https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?w=500&auto=format&fit=crop&q=80';
-      }
-
-      // Extract synopsis / description
-      let synopsis = html.match(/<meta\s+property=["']og:description["']\s+content=["']([^"']+)["']/i)?.[1]
-        || html.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i)?.[1]
-        || html.match(/<div\s+class=["'][^"']*(?:sinopsis|description|overview|entry-content)[^"']*["'][^>]*>([\s\S]*?)<\/div>/i)?.[1]
-        || '';
-      synopsis = synopsis.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-      if (!synopsis) {
-        synopsis = `Todos los capítulos completos y temporadas de "${cleanTitle}". Disfruta de la mejor calidad en streaming.`;
-      }
-
-      // Detect year
-      let year = 2026;
-      const yearMatch = html.match(/\b(202[0-6]|201\d|200\d|199\d)\b/);
-      if (yearMatch) {
-        year = parseInt(yearMatch[1], 10);
-      }
-
-      // Infer Category
-      let category = 'Series y Novelas';
-      const lowerUrl = targetUrl.toLowerCase();
-      if (lowerUrl.includes('turca') || /turc[ao]s?/i.test(html.slice(0, 5000))) {
-        category = 'Series Turcas';
-      } else if (lowerUrl.includes('dorama') || /dorama/i.test(html.slice(0, 5000))) {
-        category = 'Doramas';
-      } else if (lowerUrl.includes('anime') || /anime/i.test(html.slice(0, 5000))) {
-        category = 'Anime';
-      } else if (lowerUrl.includes('pelicula') || lowerUrl.includes('movie')) {
-        category = 'Películas Estreno';
-      }
-
-      // Find episode links
-      const linkRegex = /<a\s+[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
-      let match;
-      const rawEpisodes: Array<{ title: string; chapterName: string; season: number; episode: number; url: string; poster: string }> = [];
-      const seenUrls = new Set<string>();
-
-      while ((match = linkRegex.exec(html)) !== null) {
-        const href = match[1];
-        const innerText = match[2].replace(/<[^>]+>/g, ' ').trim();
-
-        // Episode regex matching: capitulo-1, episodio-1, t1e1, cap-1, etc.
-        const hasEpNumber = /cap[ií]tulo[-\s_]*(\d+)/i.exec(href)
-          || /cap[ií]tulo\s*(\d+)/i.exec(innerText)
-          || /episodio[-\s_]*(\d+)/i.exec(href)
-          || /episodio\s*(\d+)/i.exec(innerText)
-          || /t(\d+)e(\d+)/i.exec(href)
-          || /temporada[-\s_]*(\d+)[-\s_]*capitulo[-\s_]*(\d+)/i.exec(href);
-
-        if (hasEpNumber) {
-          try {
-            const fullUrl = new URL(href, targetUrl).href;
-            if (!seenUrls.has(fullUrl)) {
-              seenUrls.add(fullUrl);
-              let epNum = 1;
-              let seasonNum = 1;
-
-              if (/temporada[-\s_]*(\d+)[-\s_]*capitulo[-\s_]*(\d+)/i.test(href)) {
-                const sMatch = /temporada[-\s_]*(\d+)[-\s_]*capitulo[-\s_]*(\d+)/i.exec(href)!;
-                seasonNum = parseInt(sMatch[1], 10);
-                epNum = parseInt(sMatch[2], 10);
-              } else if (/t(\d+)e(\d+)/i.test(href)) {
-                const tMatch = /t(\d+)e(\d+)/i.exec(href)!;
-                seasonNum = parseInt(tMatch[1], 10);
-                epNum = parseInt(tMatch[2], 10);
-              } else {
-                epNum = parseInt(hasEpNumber[1], 10);
-                const sFromHref = /temporada[-\s_]*(\d+)/i.exec(href);
-                if (sFromHref) seasonNum = parseInt(sFromHref[1], 10);
-              }
-
-              rawEpisodes.push({
-                title: `${cleanTitle} - T${seasonNum} E${epNum} (Capítulo ${epNum})`,
-                chapterName: `Temporada ${seasonNum} · Capítulo ${epNum}`,
-                season: seasonNum,
-                episode: epNum,
-                url: fullUrl,
-                poster: poster,
-              });
-            }
-          } catch {}
-        }
-      }
-
-      // Sort episodes ascending by Season and Episode
-      rawEpisodes.sort((a, b) => {
-        if (a.season === b.season) return a.episode - b.episode;
-        return a.season - b.season;
-      });
-
-      // If no episode links were found, check if it's a single movie or video stream
-      if (rawEpisodes.length === 0) {
-        const iframeSrc = html.match(/<iframe[^>]*src=["']([^"']+)["']/i)?.[1];
-        const videoSrc = html.match(/<source[^>]*src=["']([^"']+)["']/i)?.[1]
-          || html.match(/<video[^>]*src=["']([^"']+)["']/i)?.[1];
-
-        const streamUrl = videoSrc ? new URL(videoSrc, targetUrl).href : (iframeSrc ? new URL(iframeSrc, targetUrl).href : targetUrl);
-
-        rawEpisodes.push({
-          title: cleanTitle,
-          chapterName: 'Película Completa',
-          season: 1,
-          episode: 1,
-          url: streamUrl,
-          poster: poster,
-        });
-      }
-
-      return res.json({
-        success: true,
-        series: {
-          title: cleanTitle,
-          poster,
-          synopsis,
-          year,
-          category,
-          type: rawEpisodes.length > 1 ? 'series' : 'movie',
-          episodes: rawEpisodes,
-        },
-      });
-    } catch (err: any) {
-      console.error('Error in /api/admin/scraper/extract-series:', err);
-      return res.status(500).json({
-        success: false,
-        error: 'Error al extraer la serie de la página web: ' + (err.message || 'Error inesperado'),
-      });
-    }
-  });
-
-
-  // Admin: Purge unpaid/expired users
-  app.post('/api/admin/users/purge-unpaid', (req, res) => {
-    const count = storage.deleteUnpaidUsers();
-    res.json({ success: true, deletedCount: count });
-  });
-
-  // Admin: Update player settings
-  app.post('/api/admin/settings', (req, res) => {
-    const updated = storage.updatePlayerSettings(req.body);
-    res.json({ success: true, playerSettings: updated });
-  });
-
-  const isProduction = process.env.NODE_ENV === 'production';
-  if (!isProduction) {
-    const { createServer: createViteServer } = await import('vite');
-    const vite = await createViteServer({
-      server: { middlewareMode: true, hmr: false },
-      appType: 'spa',
-    });
-    app.use(vite.middlewares);
-  } else {
-    app.use(express.static(path.resolve(__dirname, 'dist')));
-    app.get('*', (req, res) => {
-      res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
-    });
-  }
-
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`NeshTV Server running on http://0.0.0.0:${PORT}`);
-  });
-}
-
-startServer().catch(err => {
-  console.error('Failed to start server:', err);
-});
+        return res.status(

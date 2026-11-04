@@ -4,7 +4,7 @@ import {
   playUniversalStream,
   PlaybackSession,
   PlayerEngineType,
-} from '../../utils/iptvPlayer.ts';
+} from '../../utils/iptvPlayer';
 import {
   UserAccount,
   ChannelItem,
@@ -12,7 +12,7 @@ import {
   IPTVPlaylist,
   FloatingMessage,
   PlayerSettings,
-} from '../../types/index.ts';
+} from '../../types/index';
 import {
   fetchUsersFromFirestore,
   saveUserToFirestore,
@@ -30,7 +30,7 @@ import {
   removeVodFromLocal,
   removeVodBatchFromLocal,
   clearLocalVod,
-} from '../../utils/firestoreService.ts';
+} from '../../utils/firestoreService';
 import {
   ShieldCheck,
   Users,
@@ -196,7 +196,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     type: 'info',
     createdAt: '',
   });
-
+  
   // UI helpers
   const [loading, setLoading] = useState(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);

@@ -296,7 +296,7 @@ async function startServer() {
     if (!username || !password || !expiryDate) {
       return res.status(400).json({ error: 'Faltan campos obligatorios' });
     }
-    const newUser = storage.addUser({
+    storage.addUser({
       id: `usr_${Date.now()}`,
       username,
       password,
@@ -306,7 +306,7 @@ async function startServer() {
       blockedChannels: blockedChannels || [],
     });
     storage.saveDb(storage.getDb());
-    res.json({ success: true, user: newUser });
+    res.json({ success: true });
   });
 
   // Admin: Update user
@@ -371,7 +371,7 @@ async function startServer() {
   app.post('/api/admin/reset-channels', (req, res) => {
     storage.resetCoreChannels();
     storage.saveDb(storage.getDb());
-    res.json({ success: true, count: 0 });
+    res.json({ success: true });
   });
 
   // Admin & Client: Delete single channel
@@ -394,9 +394,9 @@ async function startServer() {
       if (!Array.isArray(channelIds) || channelIds.length === 0) {
         return res.status(400).json({ success: false, error: 'Lista de IDs de canales requerida' });
       }
-      const count = storage.deleteChannelsBatch(channelIds);
+      storage.deleteChannelsBatch(channelIds);
       storage.saveDb(storage.getDb());
-      return res.json({ success: true, count, deletedIds: channelIds });
+      return res.json({ success: true, count: channelIds.length, deletedIds: channelIds });
     } catch (err: any) {
       console.error('Error batch deleting channels:', err);
       return res.status(500).json({ success: false, error: err?.message || 'Error al eliminar canales en lote' });
@@ -439,9 +439,9 @@ async function startServer() {
       if (!Array.isArray(vodIds) || vodIds.length === 0) {
         return res.status(400).json({ success: false, error: 'Lista de IDs de películas/series requerida' });
       }
-      const count = storage.deleteVodBatch(vodIds);
+      storage.deleteVodBatch(vodIds);
       storage.saveDb(storage.getDb());
-      return res.json({ success: true, count, deletedIds: vodIds });
+      return res.json({ success: true, count: vodIds.length, deletedIds: vodIds });
     } catch (err: any) {
       console.error('Error batch deleting VOD items:', err);
       return res.status(500).json({ success: false, error: err?.message || 'Error al eliminar películas/series en lote' });
@@ -839,7 +839,6 @@ async function startServer() {
       if (!url || typeof url !== 'string' || !url.trim()) {
         return res.status(400).json({ success: false, error: 'URL requerida' });
       }
-      
       const newChannel = storage.addDirectChannel({
         id: `custom_ch_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
         number: (storage.getDb().channels?.length || 0) + 1,
@@ -852,9 +851,7 @@ async function startServer() {
         epgNow: { title: name || 'Transmisión en Vivo', startTime: '00:00', endTime: '23:59', description: 'Canal directo' },
         epgNext: { title: 'Programación continua', startTime: '23:59', endTime: '06:00', description: 'Sin interrupciones' }
       });
-
       storage.saveDb(storage.getDb());
-
       return res.json({ success: true, channel: newChannel });
     } catch (err: any) {
       console.error('Error adding custom channel:', err);
@@ -862,12 +859,12 @@ async function startServer() {
     }
   });
 
-  // Admin: Clear all channels
+  // Admin: Clear all channels and clean client accounts
   app.post('/api/admin/channels/clear-all', (req, res) => {
     try {
       storage.clearAllChannels();
       storage.saveDb(storage.getDb());
-      return res.json({ success: true, message: 'Todos los canales han sido eliminados por completo.' });
+      return res.json({ success: true, message: 'Todos los canales han sido eliminados por completo y removidos de los usuarios.' });
     } catch (err: any) {
       console.error('Error clearing all channels:', err);
       return res.status(500).json({ success: false, error: err?.message || 'Error al vaciar canales' });
@@ -905,7 +902,7 @@ async function startServer() {
     }
   });
 
-  // Admin: Add playlist
+  // Admin: Add playlist (with auto-sync support)
   app.post('/api/admin/playlists', async (req, res) => {
     try {
       const { name, type, url, username, password, active, autoSync } = req.body || {};
@@ -1002,21 +999,24 @@ async function startServer() {
     }
   });
 
+  // Admin: Delete playlist
   app.delete('/api/admin/playlists/:id', (req, res) => {
     storage.deletePlaylist(req.params.id);
     storage.saveDb(storage.getDb());
     res.json({ success: true });
   });
 
+  // Admin: Toggle channel blocked state
   app.put('/api/admin/channels/:id/toggle', (req, res) => {
     const ch = storage.toggleChannelBlocked(req.params.id, req.body.blocked);
+    storage.saveDb(storage.getDb());
     if (!ch) {
       return res.status(404).json({ error: 'Canal no encontrado' });
     }
-    storage.saveDb(storage.getDb());
     res.json({ success: true, channel: ch });
   });
 
+  // Admin: Toggle entire category blocked state
   app.put('/api/admin/channels-category/toggle', (req, res) => {
     const { category, blocked } = req.body || {};
     if (!category) {
@@ -1027,15 +1027,17 @@ async function startServer() {
     res.json({ success: true, updatedCount: count });
   });
 
+  // Admin: Toggle VOD blocked state
   app.put('/api/admin/vod/:id/toggle', (req, res) => {
     const item = storage.toggleVodBlocked(req.params.id, req.body.blocked);
+    storage.saveDb(storage.getDb());
     if (!item) {
       return res.status(404).json({ error: 'Película/Serie no encontrada' });
     }
-    storage.saveDb(storage.getDb());
     res.json({ success: true, vod: item });
   });
 
+  // Admin: Add custom VOD item (movie or series)
   app.post('/api/admin/vod', (req, res) => {
     try {
       const { title, url, type, category, year, rating, poster, backdrop, synopsis, seasons, episodesCount, episodes } = req.body || {};
@@ -1043,17 +1045,20 @@ async function startServer() {
         return res.status(400).json({ success: false, error: 'Título y URL o episodios requeridos' });
       }
       const newItem = {
-        id: `vod_${Date.now()}`,
+        id: `vod_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
         title,
         url: url || (episodes && episodes[0]?.url) || '',
         type: type || 'movie',
         category: category || 'Películas Generales',
-        year: year || 2026,
+        year: Number(year) || 2026,
         rating: rating || '9.0',
-        poster: poster || '',
+        poster: poster || 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400&auto=format&fit=crop&q=80',
         backdrop: backdrop || '',
         synopsis: synopsis || '',
-        isBlocked: false
+        isBlocked: false,
+        seasons,
+        episodesCount,
+        episodes
       };
       storage.addVodItem(newItem);
       storage.saveDb(storage.getDb());
@@ -1064,6 +1069,7 @@ async function startServer() {
     }
   });
 
+  // Admin: Save complete series with all its nested seasons and episodes
   app.post('/api/admin/vod/save-series', (req, res) => {
     try {
       const { title, category, year, rating, poster, backdrop, synopsis, seasons, episodes } = req.body || {};
@@ -1071,18 +1077,20 @@ async function startServer() {
         return res.status(400).json({ success: false, error: 'Título de la serie requerido' });
       }
       const created = {
-        id: `series_${Date.now()}`,
+        id: `series_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
         title,
-        category: category || 'Series',
+        category: category || 'Series Turcas',
         year: Number(year) || 2026,
         rating: rating || '9.2',
-        poster: poster || '',
-        backdrop: backdrop || '',
+        poster: poster || 'https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?w=500&auto=format&fit=crop&q=80',
+        backdrop: backdrop || poster || '',
         synopsis: synopsis || '',
-        seasons: Number(seasons) || 1,
-        episodes: Array.isArray(episodes) ? episodes : [],
         type: 'series',
-        isBlocked: false
+        isBlocked: false,
+        seasons: Number(seasons) || 1,
+        episodesCount: Array.isArray(episodes) ? episodes.length : 0,
+        episodes: Array.isArray(episodes) ? episodes : [],
+        url: Array.isArray(episodes) && episodes[0] ? episodes[0].url : ''
       };
       storage.addSeriesWithEpisodes(created);
       storage.saveDb(storage.getDb());
@@ -1093,8 +1101,247 @@ async function startServer() {
     }
   });
 
+  // Admin: Batch import VOD items
   app.post('/api/admin/vod/import-batch', (req, res) => {
     try {
       const { items } = req.body || {};
       if (!Array.isArray(items) || items.length === 0) {
-        return res.status(
+        return res.status(400).json({ success: false, error: 'Lista de elementos VOD requerida' });
+      }
+      storage.addMultipleVod(items);
+      storage.saveDb(storage.getDb());
+      return res.json({ success: true, count: items.length, items });
+    } catch (err: any) {
+      console.error('Error batch importing VOD items:', err);
+      return res.status(500).json({ success: false, error: err?.message || 'Error al importar elementos VOD' });
+    }
+  });
+
+  // Admin: Scraper to extract series, episodes, poster, title, and synopsis from web page URL
+  app.post('/api/admin/scraper/extract-series', async (req, res) => {
+    try {
+      const { url } = req.body || {};
+      if (!url || typeof url !== 'string' || !url.trim().startsWith('http')) {
+        return res.status(400).json({ success: false, error: 'URL válida requerida (debe iniciar con http:// o https://)' });
+      }
+
+      const targetUrl = url.trim();
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 12000);
+
+      const response = await fetch(targetUrl, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8',
+        },
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        return res.status(response.status).json({
+          success: false,
+          error: `Error al acceder a la página web: Código HTTP ${response.status}`,
+        });
+      }
+
+      const html = await response.text();
+
+      let rawTitle = html.match(/<meta\s+property=["']og:title["']\s+content=["']([^"']+)["']/i)?.[1]
+        || html.match(/<meta\s+name=["']twitter:title["']\s+content=["']([^"']+)["']/i)?.[1]
+        || html.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1]
+        || html.match(/<h1[^>]*>([^<]+)<\/h1>/i)?.[1]
+        || '';
+
+      let cleanTitle = rawTitle
+        .replace(/\s*\|.*$/, '')
+        .replace(/\s*-\s*(?:Series|Peliculas|Ver|Online|Gratis|Capitulos|HD).*$/i, '')
+        .replace(/\s*\(en Español\)/i, '')
+        .replace(/\s*Audio latino/i, '')
+        .replace(/[✔️✅]/g, '')
+        .trim();
+
+      if (!cleanTitle) {
+        try {
+          const urlObj = new URL(targetUrl);
+          cleanTitle = urlObj.pathname.split('/').filter(Boolean).pop()?.replace(/[-_]/g, ' ') || 'Serie / Novela';
+          cleanTitle = cleanTitle.charAt(0).toUpperCase() + cleanTitle.slice(1);
+        } catch {
+          cleanTitle = 'Serie Web';
+        }
+      }
+
+      let poster = html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i)?.[1]
+        || html.match(/<meta\s+name=["']twitter:image["']\s+content=["']([^"']+)["']/i)?.[1]
+        || html.match(/<link\s+rel=["']image_src["']\s+href=["']([^"']+)["']/i)?.[1]
+        || html.match(/<img\s+[^>]*class=["'][^"']*(?:poster|cover|cartelera|thumb)[^"']*["'][^>]*src=["']([^"']+)["']/i)?.[1]
+        || html.match(/<img\s+[^>]*src=["']([^"']+)["'][^>]*class=["'][^"']*(?:poster|cover|cartelera|thumb)[^"']*["']/i)?.[1]
+        || '';
+
+      if (poster) {
+        try {
+          poster = new URL(poster, targetUrl).href;
+        } catch {}
+      } else {
+        poster = 'https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?w=500&auto=format&fit=crop&q=80';
+      }
+
+      let synopsis = html.match(/<meta\s+property=["']og:description["']\s+content=["']([^"']+)["']/i)?.[1]
+        || html.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i)?.[1]
+        || html.match(/<div\s+class=["'][^"']*(?:sinopsis|description|overview|entry-content)[^"']*["'][^>]*>([\s\S]*?)<\/div>/i)?.[1]
+        || '';
+      synopsis = synopsis.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      if (!synopsis) {
+        synopsis = `Todos los capítulos completos y temporadas de "${cleanTitle}". Disfruta de la mejor calidad en streaming.`;
+      }
+
+      let year = 2026;
+      const yearMatch = html.match(/\b(202[0-6]|201\d|200\d|199\d)\b/);
+      if (yearMatch) {
+        year = parseInt(yearMatch[1], 10);
+      }
+
+      let category = 'Series y Novelas';
+      const lowerUrl = targetUrl.toLowerCase();
+      if (lowerUrl.includes('turca') || /turc[ao]s?/i.test(html.slice(0, 5000))) {
+        category = 'Series Turcas';
+      } else if (lowerUrl.includes('dorama') || /dorama/i.test(html.slice(0, 5000))) {
+        category = 'Doramas';
+      } else if (lowerUrl.includes('anime') || /anime/i.test(html.slice(0, 5000))) {
+        category = 'Anime';
+      } else if (lowerUrl.includes('pelicula') || lowerUrl.includes('movie')) {
+        category = 'Películas Estreno';
+      }
+
+      const linkRegex = /<a\s+[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
+      let match;
+      const rawEpisodes: Array<{ title: string; chapterName: string; season: number; episode: number; url: string; poster: string }> = [];
+      const seenUrls = new Set<string>();
+
+      while ((match = linkRegex.exec(html)) !== null) {
+        const href = match[1];
+        const innerText = match[2].replace(/<[^>]+>/g, ' ').trim();
+
+        const hasEpNumber = /cap[ií]tulo[-\s_]*(\d+)/i.exec(href)
+          || /cap[ií]tulo\s*(\d+)/i.exec(innerText)
+          || /episodio[-\s_]*(\d+)/i.exec(href)
+          || /episodio\s*(\d+)/i.exec(innerText)
+          || /t(\d+)e(\d+)/i.exec(href)
+          || /temporada[-\s_]*(\d+)[-\s_]*capitulo[-\s_]*(\d+)/i.exec(href);
+
+        if (hasEpNumber) {
+          try {
+            const fullUrl = new URL(href, targetUrl).href;
+            if (!seenUrls.has(fullUrl)) {
+              seenUrls.add(fullUrl);
+              let epNum = 1;
+              let seasonNum = 1;
+
+              if (/temporada[-\s_]*(\d+)[-\s_]*capitulo[-\s_]*(\d+)/i.test(href)) {
+                const sMatch = /temporada[-\s_]*(\d+)[-\s_]*capitulo[-\s_]*(\d+)/i.exec(href)!;
+                seasonNum = parseInt(sMatch[1], 10);
+                epNum = parseInt(sMatch[2], 10);
+              } else if (/t(\d+)e(\d+)/i.exec(href)) {
+                const tMatch = /t(\d+)e(\d+)/i.exec(href)!;
+                seasonNum = parseInt(tMatch[1], 10);
+                epNum = parseInt(tMatch[2], 10);
+              } else {
+                epNum = parseInt(hasEpNumber[1], 10);
+                const sFromHref = /temporada[-\s_]*(\d+)/i.exec(href);
+                if (sFromHref) seasonNum = parseInt(sFromHref[1], 10);
+              }
+
+              rawEpisodes.push({
+                title: `${cleanTitle} - T${seasonNum} E${epNum} (Capítulo ${epNum})`,
+                chapterName: `Temporada ${seasonNum} · Capítulo ${epNum}`,
+                season: seasonNum,
+                episode: epNum,
+                url: fullUrl,
+                poster: poster,
+              });
+            }
+          } catch {}
+        }
+      }
+
+      rawEpisodes.sort((a, b) => {
+        if (a.season === b.season) return a.episode - b.episode;
+        return a.season - b.season;
+      });
+
+      if (rawEpisodes.length === 0) {
+        const iframeSrc = html.match(/<iframe[^>]*src=["']([^"']+)["']/i)?.[1];
+        const videoSrc = html.match(/<source[^>]*src=["']([^"']+)["']/i)?.[1]
+          || html.match(/<video[^>]*src=["']([^"']+)["']/i)?.[1];
+
+        const streamUrl = videoSrc ? new URL(videoSrc, targetUrl).href : (iframeSrc ? new URL(iframeSrc, targetUrl).href : targetUrl);
+
+        rawEpisodes.push({
+          title: cleanTitle,
+          chapterName: 'Película Completa',
+          season: 1,
+          episode: 1,
+          url: streamUrl,
+          poster: poster,
+        });
+      }
+
+      return res.json({
+        success: true,
+        series: {
+          title: cleanTitle,
+          poster,
+          synopsis,
+          year,
+          category,
+          type: rawEpisodes.length > 1 ? 'series' : 'movie',
+          episodes: rawEpisodes,
+        },
+      });
+    } catch (err: any) {
+      console.error('Error in /api/admin/scraper/extract-series:', err);
+      return res.status(500).json({
+        success: false,
+        error: 'Error al extraer la serie de la página web: ' + (err.message || 'Error inesperado'),
+      });
+    }
+  });
+
+  // Admin: Purge unpaid/expired users
+  app.post('/api/admin/users/purge-unpaid', (req, res) => {
+    storage.deleteUnpaidUsers();
+    storage.saveDb(storage.getDb());
+    res.json({ success: true });
+  });
+
+  // Admin: Update player settings
+  app.post('/api/admin/settings', (req, res) => {
+    storage.updatePlayerSettings(req.body);
+    storage.saveDb(storage.getDb());
+    res.json({ success: true });
+  });
+
+  const isProduction = process.env.NODE_ENV === 'production';
+  if (!isProduction) {
+    const { createServer: createViteServer } = await import('vite');
+    const vite = await createViteServer({
+      server: { middlewareMode: true, hmr: false },
+      appType: 'spa',
+    });
+    app.use(vite.middlewares);
+  } else {
+    app.use(express.static(path.resolve(__dirname, 'dist')));
+    app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+    });
+  }
+
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`NeshTV Server running on http://0.0.0.0:${PORT}`);
+  });
+}
+
+startServer().catch(err => {
+  console.error('Failed to start server:', err);
+});

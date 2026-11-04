@@ -33,8 +33,9 @@ jobs:
       - name: 5. Compilar proyecto web (Vite / React)
         run: npm run build
 
-      - name: 6. Configurar Capacitor y Sincronizar Android
+      - name: 6. Instalar Capacitor CLI y Sincronizar Android
         run: |
+          npm install --save-dev @capacitor/cli @capacitor/android
           npx cap sync android
 
       - name: 7. Dar permisos de ejecución a Gradle y Compilar APK Debug

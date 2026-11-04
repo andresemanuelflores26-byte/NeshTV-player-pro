@@ -35,7 +35,7 @@ jobs:
 
       - name: 6. Instalar Capacitor CLI y Sincronizar Android
         run: |
-          npm install --save-dev @capacitor/cli @capacitor/android
+          npm install --save-dev @capacitor/cli @capacitor/android --legacy-peer-deps
           npx cap sync android
 
       - name: 7. Dar permisos de ejecución a Gradle y Compilar APK Debug

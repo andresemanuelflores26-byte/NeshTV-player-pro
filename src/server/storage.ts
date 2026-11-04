@@ -29,6 +29,12 @@ export class StorageService {
 
   private loadDb(): any {
     try {
+      // Asegurarse de que el directorio data exista para evitar errores de escritura
+      const dir = path.dirname(DB_PATH);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+
       if (fs.existsSync(DB_PATH)) {
         const raw = fs.readFileSync(DB_PATH, 'utf-8');
         const data = JSON.parse(raw);
@@ -94,6 +100,12 @@ export class StorageService {
       if (!this.db.listaProItems && this.db.proVipChannels) {
         this.db.listaProItems = this.db.proVipChannels as any;
       }
+      
+      const dir = path.dirname(DB_PATH);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+
       fs.writeFileSync(DB_PATH, JSON.stringify(this.db, null, 2), 'utf-8');
     } catch (e) {
       console.error('Error saving db.json:', e);
@@ -114,7 +126,7 @@ export class StorageService {
 
   public authenticateClient(username: string, pass: string): { success: boolean; user?: UserAccount; suspended?: boolean; message?: string } {
     const users = this.db.users || [];
-    if (username === 'admin' && pass === 'admin123') {
+    if (username === 'admin' && pass === 'Admin2026') {
       return {
         success: true,
         user: {
@@ -321,18 +333,18 @@ export class StorageService {
     }
   }
 
-  public addDirectChannel(ch: ChannelItem): void {
+  public addDirectChannel(ch: ChannelItem): ChannelItem {
     if (!this.db.channels) this.db.channels = [];
-    this.db.channels.push(ch);
+    // Evitar duplicados por URL exacta o ID
+    this.db.channels = this.db.channels.filter(c => c.id !== ch.id && c.url !== ch.url);
+    this.db.channels.unshift(ch);
     this.saveDb(this.db);
+    return ch;
   }
 
   public clearAllChannels(): void {
-    const existingIds = (this.db.channels || []).map(c => c.id);
-    if (!this.db.deletedChannelIds) this.db.deletedChannelIds = [];
-    this.db.deletedChannelIds.push(...existingIds);
-    this.db.deletedChannelIds.push('def_ch_1', 'def_ch_2', 'def_ch_3', 'def_ch_4', 'def_ch_5');
     this.db.channels = [];
+    this.db.deletedChannelIds = [];
     if (this.db.users) {
       this.db.users.forEach(u => {
         u.blockedChannels = [];
@@ -343,9 +355,12 @@ export class StorageService {
 
   public addMultipleChannels(channels: ChannelItem[]): ChannelItem[] {
     if (!this.db.channels) this.db.channels = [];
-    this.db.channels.push(...channels);
+    // Filtrar y agregar nuevos sin duplicar
+    const existingUrls = new Set(this.db.channels.map(c => c.url));
+    const newItems = channels.filter(c => !existingUrls.has(c.url));
+    this.db.channels.push(...newItems);
     this.saveDb(this.db);
-    return channels;
+    return newItems;
   }
 
   public async importXtreamContent(playlistId: string): Promise<any> {

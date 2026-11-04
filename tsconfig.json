@@ -23,7 +23,6 @@
         "./*"
       ]
     },
-    "allowImportingTsExtensions": true,
     "noEmit": true
   },
   "exclude": ["dist", "public", "server.ts"]
